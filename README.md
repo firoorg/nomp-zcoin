@@ -37,56 +37,65 @@ You will need to expose some ports to make it accessible from outside. You can a
 You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
 
 -------
-### Hashing algorithms supported:
-* ? __Argon2__ (need tests)
-* ? __Blake__ (need tests)
-* ? __Blake2S__ (need tests)
-* ? __Cryptonight__ (need tests)
-* ? __Dcrypt__ (need tests)
-* ? __Decred__ (need tests)
-* ? __Fresh__ (need tests)
-* ? __Fugue__ (need tests)
-* ✓ __Groestl__ (tested only shares with AuroraCoin, blocks not tested)
-* ? __GroestlMyriad__ (need tests)
-* ? __Qubit__ (Shares works, blocks finding, but error 'We thought a block was found but it was rejected by the daemon'. No blocks presented in pools web interface)
-* ? __Quark__ (need tests)
-* ? __Hefty1__ (need tests)
-* ? __Keccak__ (need tests)
-* ? __Lbry__ (need tests)
-* ? __lyra2re__ (need tests)
-* ? __lyra2re2__ (need tests)
-* ? __lyra2rev2__ (need tests)
-* ✓ __lyra2z__ (tested with Zcoin, check notes about testnet)
-* ? __lyra2z330__ (need tests)
-* ? __NeoScrypt__ (working on it)
-* ? __NIST5__ (need tests)
-* ? __S3__ (need tests)
-* ✓ __Scrypt__ (tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others)
-* (-) __Scrypt-Jane__ (submitblock not working tested with CacheCoin, Yacoin)
-* ? __Scrypt-N__ (need tests)
-* ? __Scrypt-OG__ (need tests)
-* ? __Sha1__ (need tests)
-* ✓ __SHA256__ (tested with VCOIN, don't use with BTC, no Segwit tested)
-* ? __SHAvite-3__ (need tests)
-* ? __Skein__ (need tests)
-* ✓ __X11__ (tested with BrainCoin, CannabisCoin, AdzCoin and many others)
-* ? __X11Ghost__ (need tests)
-* ? __X13__ (need tests)
-* ? __X14__ (need tests)
-* ? __X15__ (need tests)
-* ? __Yescrypt__ (need tests)
-* ? __zr5__ (need tests)
-* ? __ziftr__ (need tests)
+### Hashing algorithms
+#### Working
+|   | Algorithm | Comment|
+| ------------- | ------------- | ------------- |
+| ✓ | __Groestl__ | tested only shares with AuroraCoin, blocks not tested |
+| ✓ | __lyra2z__ | tested with Zcoin, check notes about testnet |
+| ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
+| ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
+| ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
+
+#### Need tests
+|   | Algorithm | Comment|
+| ------------- | ------------- | ------------- |
+| ? | __Argon2__ | need tests |
+| ? | __Blake__ | need tests |
+| ? | __Blake2S__ | need tests |
+| ? | __Cryptonight__ | need tests |
+| ? | __Dcrypt__ | need tests |
+| ? | __Decred__ | need tests |
+| ? | __Fresh__ | need tests |
+| ? | __Fugue__ | need tests |
+| ? | __GroestlMyriad__ | need tests |
+| ? | __Qubit__ | Shares works, blocks finding, but error 'We thought a block was found but it was rejected by the daemon'. No blocks presented in pools web interface |
+| ? | __Quark__ | need tests |
+| ? | __Hefty1__ | need tests |
+| ? | __Keccak__ | need tests |
+| ? | __Lbry__ | need tests |
+| ? | __lyra2re__ | need tests |
+| ? | __lyra2re2__ | need tests |
+| ? | __lyra2rev2__ | need tests |
+| ? | __lyra2z330__ | need tests |
+| ? | __NeoScrypt__ | working on it |
+| ? | __NIST5__ | need tests |
+| ? | __S3__ | need tests |
+| ? | __Scrypt-N__ | need tests |
+| ? | __Scrypt-OG__ | need tests |
+| ? | __Sha1__ | need tests |
+| ? | __SHAvite-3__ | need tests |
+| ? | __Skein__ | need tests |
+| ? | __X11Ghost__ | need tests |
+| ? | __X13__ | need tests |
+| ? | __X14__ | need tests |
+| ? | __X15__ | need tests |
+| ? | __Yescrypt__ | need tests |
+| ? | __zr5__ | need tests |
+| ? | __ziftr__ | need tests |
+
+#### Don't work yet
+|   | Algorithm | Comment|
+| ------------- | ------------- | ------------- |
+| - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
+| - | __X16r__ | need lib |
 
 -------
 ### Notes
 #### Lyra2Z
 If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
 
-
-ONLY USE COIN ADDRESS AS MINING USER (WITHOUT WORKER) OR PAYOUTS WILL FAIL
-
-I have modified code in workers-fix branch. Need to test it.
+I have modified code to support workers. Need to test it.
 
 
 -------
