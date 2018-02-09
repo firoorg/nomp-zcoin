@@ -1,3 +1,4 @@
+/* TODO recreate
 var async  = require('async');
 var net    = require('net');
 var bignum = require('bignum');
@@ -664,3 +665,4 @@ module.exports = function(logger){
     setInterval(checkProfitability, portalConfig.profitSwitch.updateInterval * 1000);
 
 };
+*/

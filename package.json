@@ -1,6 +1,6 @@
 {
     "name": "node-open-mining-portal",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "An extremely efficient, highly scalable, all-in-one, easy to setup cryptocurrency mining pool",
     "keywords": [
         "stratum",
@@ -19,6 +19,8 @@
     "license": "GPL-2.0",
     "author": "Matthew Little",
     "contributors": [
+        "devnulled",
+        "foxer666",
         "vekexasia",
         "TheSeven",
         "Kris Klosterman"
@@ -33,7 +35,7 @@
     },
     "dependencies": {
         "async": "^2.5.0",
-        "bignum": "^0.12.5",
+        "bignumber.js": "^6.0.0",
         "body-parser": "^1.18.2",
         "colors": "^1.1.2",
         "compression": "^1.7.1",
@@ -46,7 +48,8 @@
         "nonce": "^1.0.4",
         "redis": "^2.7.1",
         "request": "^2.83.0",
-        "stratum-pool": "git://github.com/foxer666/node-stratum-pool.git"
+        "stratum-pool": "git://github.com/foxer666/node-stratum-pool.git",
+        "winston": "^3.0.0-rc1"
     },
     "engines": {
         "node": ">=8.1.4"

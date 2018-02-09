@@ -73,7 +73,7 @@ if (cluster.isWorker){
             new PoolWorker(logger);
             break;
         case 'paymentProcessor':
-            new PaymentProcessor(logger);
+            new PaymentProcessor();
             break;
         case 'website':
             new Website(logger);

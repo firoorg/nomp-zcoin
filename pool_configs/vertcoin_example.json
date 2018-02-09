@@ -1,16 +1,14 @@
 {
     "enabled": false,
     "coin": "vertcoin.json",
-
-    "address": "VwAafP1tQRHD1nithCNWeyUmd3sDYP5jLT",
-
+    "address": "pool_address",
     "rewardRecipients": {
-        "Vivk1CrBkqRGZgJv5XCU6G7wXXNokfF4VR": 1
+        "pool_reward_fee_address": 1
     },
-
     "paymentProcessing": {
-        "enabled": true, "paymentInterval": 20,
-        "minimumPayment": 70,
+        "enabled": true,
+        "paymentInterval": 600,
+        "minimumPayment": 0.01,
         "daemon": {
             "host": "127.0.0.1",
             "port": 5888,
@@ -18,7 +16,6 @@
             "password": "testpass"
         }
     },
-
     "ports": {
         "3008": {
             "diff": 8
@@ -37,7 +34,6 @@
             "diff": 256
         }
     },
-
     "daemons": [
         {
             "host": "127.0.0.1",
@@ -46,14 +42,12 @@
             "password": "testpass"
         }
     ],
-
     "p2p": {
-        "enabled": true,
+        "enabled": false,
         "host": "127.0.0.1",
         "port": 5889,
         "disableTransactions": true
     },
-
     "mposMode": {
         "enabled": false,
         "host": "127.0.0.1",
@@ -64,7 +58,6 @@
         "checkPassword": true,
         "autoCreateWorker": false
     },
-
     "mongoMode": {
         "enabled": false,
         "host": "127.0.0.1",
@@ -73,5 +66,4 @@
         "database": "vtc",
         "authMechanism": "DEFAULT"
     }
-
 }

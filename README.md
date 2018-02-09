@@ -11,6 +11,8 @@
 Stratum Pool can be replaced with node-merged-pool (it's made in UNOMP)
 Adding new algos threw Node Multihashing libraries.
 
+Current version: v1.0.0
+
 -------
 ### Install
 ```
@@ -42,7 +44,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 |   | Algorithm | Comment|
 | ------------- | ------------- | ------------- |
 | ✓ | __Groestl__ | tested only shares with AuroraCoin, blocks not tested |
-| ✓ | __lyra2z__ | tested with Zcoin, check notes about testnet |
+| ✓ | __lyra2z__ | Working in testnet *mining* and *payouts* |
 | ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
 | ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
 | ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
@@ -95,8 +97,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 #### Lyra2Z
 If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
 
-I have modified code to support workers. Need to test it.
-
+There is a ```payment-fixes``` branch where i fixed previous blockHash problem and corrected payouts. Check it out in this and stratum server module.
 
 -------
 ### Credits
