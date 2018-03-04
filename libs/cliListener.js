@@ -1,13 +1,10 @@
 var events = require('events');
 var net = require('net');
+const logger = require('./logger.js').getLogger('CLI', 'system');
 
 var listener = module.exports = function listener(host, port){
 
     var _this = this;
-
-    var emitLog = function(text){
-        _this.emit('log', text);
-    };
 
 
     this.start = function(){
@@ -32,11 +29,11 @@ var listener = module.exports = function listener(host, port){
                 });
             }
             catch(e){
-                emitLog('CLI listener failed to parse message ' + data);
+                logger.error('CLI listener failed to parse message %s', data);
             }
 
         }).listen(port, host, function() {
-            emitLog('CLI listening on ' + host + ':' + port)
+            logger.info('CLI listening on %s:%s', host, port)
         });
     }
 

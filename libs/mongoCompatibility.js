@@ -1,6 +1,9 @@
-var MongoClient = require('mongodb').MongoClient, 
-f = require('util').format;
-module.exports = function(logger, poolConfig){
+var MongoClient = require('mongodb').MongoClient,
+    f = require('util').format;
+
+const loggerFactory = require('./logger.js');
+
+module.exports = function (poolConfig) {
 
     var mongoConfig = poolConfig.mongoMode;
     var coin = poolConfig.coin.name;
@@ -13,7 +16,8 @@ module.exports = function(logger, poolConfig){
         authMechanism: poolConfig.mongoMode.authMechanism ? poolConfig.mongoMode.authMechanism : "DEFAULT"
     };
 
-    
+    let logger = loggerFactory.getLogger('MongoCompatibility', coin);
+
     var logIdentify = 'MongoDB';
     var logComponent = coin;
 
@@ -27,16 +31,16 @@ module.exports = function(logger, poolConfig){
 
     //TODO: PRIORITY: Check to see if collection exists and create it if not
 
-    var mongoInsert = function(collectionName, data, errCallback, successCallback) {
-        MongoClient.connect(connectionURL, function(err, db) {
+    var mongoInsert = function (collectionName, data, errCallback, successCallback) {
+        MongoClient.connect(connectionURL, function (err, db) {
 
             var collection = db.collection(collectionName);
 
-            collection.insert(data, function(err, result){
+            collection.insert(data, function (err, result) {
                 if (err) {
                     errCallback(err);
                     //TODO: do we stop it from moving on here?
-                } 
+                }
 
                 successCallback(result);
                 db.close(); //TODO: does this work? does it get called before the above callback can do whatever with result?
@@ -45,7 +49,7 @@ module.exports = function(logger, poolConfig){
         });
     };
 
-    this.handleShare = function(isValidShare, isValidBlock, shareData){
+    this.handleShare = function (isValidShare, isValidBlock, shareData) {
 
         var dbData = {
             rem_host: shareData.ip,
@@ -57,21 +61,21 @@ module.exports = function(logger, poolConfig){
             solution: shareData.blockHash ? shareData.blockHash : (shareData.blockHashInvalid ? shareData.blockHashInvalid : '')
         };
 
-        mongoInsert('shares', dbData, 
-        function(err){
-            logger.error(logIdentify, logComponent, 'Insert error when adding share: ' + JSON.stringify(err));
-        },
-        function(result) {
-            logger.debug(logIdentify, logComponent, 'Share inserted');
-        });
+        mongoInsert('shares', dbData,
+            function (err) {
+                logger.error('Insert error when adding share: %s', JSON.stringify(err));
+            },
+            function (result) {
+                logger.debug('Share inserted, result = %s', JSON.stringify(result));
+            });
 
     };
 
-    this.handleDifficultyUpdate = function(workerName, diff){
+    this.handleDifficultyUpdate = function (workerName, diff) {
         //TODO:
     };
 
-    this.handleAuth = function(workerName, password, authCallback){
+    this.handleAuth = function (workerName, password, authCallback) {
         //TODO:
     };
 

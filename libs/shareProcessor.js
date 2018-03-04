@@ -1,8 +1,9 @@
 var redis = require('redis');
 var Stratum = require('stratum-pool');
 
+const loggerFactory = require('./logger.js');
 
-
+const logger = loggerFactory.getLogger('ShareProcessor', 'system');
 /*
 This module deals with handling shares when in internal payment processing mode. It connects to a redis
 database and inserts shares with the database structure of:
@@ -15,13 +16,15 @@ value: a hash with..
 
 
 
-module.exports = function(logger, poolConfig){
+module.exports = function(poolConfig){
 
     var redisConfig = poolConfig.redis;
+
     var coin = poolConfig.coin.name;
-
-
     var forkId = process.env.forkId;
+    let logger = loggerFactory.getLogger(`ShareProcessor [:${forkId}]`, coin);
+
+
     var logSystem = 'Pool';
     var logComponent = coin;
     var logSubCat = 'Thread ' + (parseInt(forkId) + 1);
@@ -29,7 +32,7 @@ module.exports = function(logger, poolConfig){
     var connection = redis.createClient(redisConfig.port, redisConfig.host);
 
     connection.on('ready', function(){
-        logger.debug(logSystem, logComponent, logSubCat, 'Share processing setup with redis (' + redisConfig.host +
+        logger.debug('Share processing setup with redis (' + redisConfig.host +
             ':' + redisConfig.port  + ')');
     });
     connection.on('error', function(err){

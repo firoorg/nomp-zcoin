@@ -4,3 +4,5 @@ config.json
 pool_configs/*.json
 !pool_configs/litecoin_example.json
 !pool_configs/vertcoin_example.json
+logs/
+!.gitkeep

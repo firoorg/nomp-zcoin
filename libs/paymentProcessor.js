@@ -41,8 +41,6 @@ module.exports = function () {
 
                 var poolOptions = poolConfigs[coin];
                 var processingConfig = poolOptions.paymentProcessing;
-                var logSystem = 'Payments';
-                var logComponent = coin;
 
                 logger.info('Payment processing setup to run every %s second(s) with daemon (%s@%s:%s) and redis (%s:%s)',
                     processingConfig.paymentInterval,
@@ -65,8 +63,7 @@ function SetupForPool(poolOptions, setupFinished) {
     var processingConfig = poolOptions.paymentProcessing;
 
 
-    // TODO fix logger, broken intentionally, wil fix after final migration to winston
-    var daemon = new Stratum.daemon.interface([processingConfig.daemon], undefined);
+    var daemon = new Stratum.daemon.interface([processingConfig.daemon], loggerFactory.getLogger('CoinDaemon', coin));
 
     var redisClient = redis.createClient(poolOptions.redis.port, poolOptions.redis.host);
 
@@ -109,7 +106,7 @@ function SetupForPool(poolOptions, setupFinished) {
                 }
                 catch (e) {
                     console.log(e);
-                    logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: %s', +JSON.stringify(result.data));
+                    logger.error('Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: %s', JSON.stringify(result.data));
                     wasICaught = true;
                 }
                 finally {
@@ -381,7 +378,7 @@ function SetupForPool(poolOptions, setupFinished) {
                                     }
                                 }
                             } else {
-                                logger.error(logSystem, logComponent, 'Warning! We have anonymous shares, null worker');
+                                logger.error('Look around! We have anonymous shares, null worker');
                             }
                         });
                         return resultForRound;
@@ -398,8 +395,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         var workerSharesForRound = allWorkerShares[i];
                         logger.silly('workerSharesForRound = %s', JSON.stringify(workerSharesForRound));
                         if (!workerSharesForRound) {
-                            logger.error(logSystem, logComponent, 'No worker shares for round: '
-                                + round.height + ' blockHash: ' + round.blockHash);
+                            logger.error('No worker shares for round: %s, blockHash %s', round.height, round.blockHash);
                             return;
                         }
 
@@ -500,7 +496,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
 
                     Object.keys(addressAmounts).forEach((address) => {
-                        addressAmounts[address] = addressAmounts[address].toFixed(coinPrecision).toString(10)
+                        addressAmounts[address] = new BigNumber(addressAmounts[address].toFixed(coinPrecision, 1)).toNumber();
                     });
 
                     logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
@@ -508,7 +504,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
                             var higherPercent = withholdPercent.plus(new BigNumber(0.01));
-                            logger.warning('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
+                            logger.warn('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
                             trySend(higherPercent);
                         }
                         else if (result.error) {
@@ -519,7 +515,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.debug('Sent out a total of ' + (totalSent)
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
                             if (withholdPercent.isGreaterThan(new BigNumber(0))) {
-                                logger.warning('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10)
+                                logger.warn('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10)
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
                             }
@@ -617,7 +613,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     finalRedisCommands.push(['del'].concat(roundsToDelete));
                 }
 
-                if (!totalPaid.eq(new BigNumber(0))){
+                if (!totalPaid.eq(new BigNumber(0))) {
                     logger.silly("totalPaid goes in redis");
                     logger.silly("totalPaid = %s", totalPaid);
                     finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid.toFixed(coinPrecision).toString()]);

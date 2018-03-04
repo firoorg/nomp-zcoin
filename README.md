@@ -11,14 +11,14 @@
 Stratum Pool can be replaced with node-merged-pool (it's made in UNOMP)
 Adding new algos threw Node Multihashing libraries.
 
-Current version: v1.0.1
+Current version: v1.0.7
 
 -------
 ### Install
 ```
 git clone https://github.com/foxer666/node-open-mining-portal.git pool
 cd pool
-npm update
+npm install
 node init.js
 ```
 -------
@@ -48,6 +48,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
 | ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
 | ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
+| ✓ | __X16r__ | tested with RavenCoin |
 
 #### Need tests
 |   | Algorithm | Comment|
@@ -90,7 +91,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 |   | Algorithm | Comment|
 | ------------- | ------------- | ------------- |
 | - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
-| - | __X16r__ | need lib |
 
 -------
 ### Notes
@@ -101,7 +101,8 @@ There is a ```payment-fixes``` branch where i fixed previous blockHash problem a
 
 -------
 ### Credits
-* [devnulled](//github.com/devnull-ed) - helped with lyra2z algo
+* [a2hill](//github.com/a2hill) - helped with X16r
+* [devnulled](//github.com/devnull-ed) - helped with lyra2z, neoscrypt algo
 * [Kris Klosterman / krisklosterman](https://github.com/krisklosterman) - Updated code for work wiht Node.JS >=8
 * [Jerry Brady / mintyfresh68](https://github.com/bluecircle) - got coin-switching fully working and developed proxy-per-algo feature
 * [Tony Dobbs](http://anthonydobbs.com) - designs for front-end and created the NOMP logo
